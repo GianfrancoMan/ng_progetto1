@@ -9,7 +9,11 @@
 > ### To use the application locally:
 >
 > - Clone or download the repository
+<<<<<<< HEAD
 > - Go to the SmartCity folder and run `npm install` command to install the necessary npm packages.
+=======
+> - Go to the project folder and run `npm install` command to install the necessary npm packages.
+>>>>>>> 2875e4d1289c138daf7156cac3c07c1bd62a7ae9
 > - Run `ng serve` or `ng serve --open` to start the application
 > - That's it, now you're ready to test the application locally and make your changes.
 
