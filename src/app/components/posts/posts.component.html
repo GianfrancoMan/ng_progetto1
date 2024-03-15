@@ -80,7 +80,7 @@
           mat-button
           class="btn-header brdr"
           (click)="onComment()"
-          ><mat-icon>comment</mat-icon>
+          ><mat-icon>comment</mat-icon><span>reply</span>
         </button>
         <div *ngIf="doComment" style="width:100%" id="form-section">
           <form #comment="ngForm" (ngSubmit)="onSubmit(comment, post.id)">
