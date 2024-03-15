@@ -1,0 +1,30 @@
+
+<div  class="pagination">
+  <button
+    (click)="nextPage('prevMore')"
+    [disabled]="!(page > 10)"
+  >
+    <mat-icon>keyboard_double_arrow_left</mat-icon>
+  </button>
+
+  <button
+  (click)="nextPage('prev')"
+  [disabled]="!(page > 1)"
+  >
+    <mat-icon>navigate_before</mat-icon>
+  </button>
+
+  <span>&nbsp;page {{page}}&nbsp;</span>
+
+  <button
+    (click)="nextPage('next')"
+    [disabled]="!isForwardAvailable"
+  >
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  </button>
+  <button (click)="nextPage('nextMore')"
+    [disabled]="!isForwardMoreAvailable"
+  >
+    <mat-icon>keyboard_double_arrow_right</mat-icon>
+  </button>
+</div>

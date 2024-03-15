@@ -1,0 +1,110 @@
+@if(id!==loggedId) {
+<app-search [isRadio]="false" (searchParamEmitter)="getByTitle($event)"></app-search>
+}
+<div class="cards">
+  <div class="not-found" *ngIf="!isPost">
+    <h1>There are no posts on this page</h1>
+    <mat-icon>sentiment_dissatisfied</mat-icon>
+  </div>
+  @if(isEditable) {
+  <div class="cards-thought">
+    <form #thoughtForm="ngForm" (ngSubmit)="onSubmitPost(thoughtForm)">
+      <mat-form-field  class="form">
+        <mat-label>Title</mat-label>
+        <input
+          matInput placeholder="Type here..." class="card-txta"
+          id="title" name="title" ngModel
+        >
+      </mat-form-field>
+      <mat-form-field  class="form">
+        <mat-label>What are you thinking about</mat-label>
+        <textarea
+          matInput placeholder="Type here..." class="card-txta"
+          id="thought" name="thought" ngModel
+        >
+        </textarea>
+      </mat-form-field>
+      <div>
+        <button mat-stroked-button
+          id="send_button"
+          color="primary"
+          type="submit"
+          [disabled]="(thoughtForm.value.thought==='' || thoughtForm.value.title==='') ? true : false"
+        >Send
+        </button>
+        <button mat-stroked-button color="primary" (click)="onCancelPost()">Clean</button>
+      </div>
+    </form>
+  </div>
+  }
+  <mat-spinner *ngIf="isSpinnerActive" class="card-spinner" color="accent"></mat-spinner>
+  <div class="card" *ngFor="let post of posts | async; index as i">
+    <mat-card >
+      <mat-card-header>
+        <div mat-card-avatar class="avatar"></div>
+        <mat-card-title>{{post.title}}</mat-card-title>
+        <mat-card-title>{{userNames[i]}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          {{post.body}}
+        </p>
+      </mat-card-content>
+    </mat-card>
+      <mat-expansion-panel
+        hideToggle="true"
+        (opened)="onOpened(post.id)"
+        [expanded]="open === post.id"
+        >
+        <mat-spinner *ngIf="isSpinnerActive" class="card-spinner" color="accent"></mat-spinner>
+        <mat-expansion-panel-header>
+          <mat-panel-description>Comments</mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="pnl-ctn">
+          <ng-container *ngIf="open === post.id">
+            <mat-card *ngFor="let comment of comments | async" class="pnl-ctn-card" >
+              <mat-card-header>
+                <div mat-card-avatar class="avatar"></div>
+                <mat-card-title class="msg-title">{{comment.name}}</mat-card-title>
+                <mat-card-subtitle>{{comment.email}}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content class="pnl-ctn-card-content">
+                <p>{{comment.body}}</p>
+              </mat-card-content>
+            </mat-card>
+          </ng-container>
+        </div>
+        <button
+          id="comment_btn"
+          *ngIf="!doComment"
+          mat-button
+          class="btn-header brdr"
+          (click)="onComment()"
+          ><mat-icon>comment</mat-icon>
+        </button>
+        <div *ngIf="doComment" style="width:100%" id="form-section">
+          <form #comment="ngForm" (ngSubmit)="onSubmit(comment, post.id)">
+            <mat-form-field  class="form">
+              <textarea
+                matInput placeholder="Type here a comment" class="card-txta"
+                id="comment" name="comment" required ngModel>
+              </textarea>
+            </mat-form-field>
+            <div>
+              <button mat-stroked-button color="primary" type="submit" [disabled]="!comment.valid">Send</button>
+              <button mat-stroked-button (click)="onCancel()">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </mat-expansion-panel>
+  </div>
+    <!--<button (click)="nextComments()">page {{currentPage}}  - see more...</button>   code used before to implement PaginationComponent-->
+    <ng-container *ngIf="isPost">
+      <app-pagination
+        [page]="currentPage"
+        [isForwardAvailable]="isForwardAvailable"
+        [isForwardMoreAvailable]="isForwardMoreAvailable"
+        (pageEmitter)="nextPageByPagination($event)">
+      </app-pagination>
+    </ng-container>
+</div>

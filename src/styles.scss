@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import './assets/scss/base';
+
+html, body { height: 100%; }
+* {
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll;
+}
+*::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: $bgColorGray;
+}

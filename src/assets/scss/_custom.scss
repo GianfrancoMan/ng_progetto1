@@ -1,0 +1,6 @@
+@mixin lyt($display, $justify, $align, $direction:row){
+  display: $display;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $direction;
+}

@@ -1,0 +1,26 @@
+<div class="header">
+  <div class="header-left">
+    <img src="../../../assets/img/sustainable-business.png" alt="">
+    <h1>Smart City</h1>
+  </div>
+  <div class="header-right">
+    @if(logged) {
+    <div class="btn-header" routerLink="/data" routerLinkActive="active" (click)="setView('')">
+      <mat-icon>groups</mat-icon>
+      <span>Community</span>
+    </div>
+    <div class="btn-header" routerLink="/posts" routerLinkActive="active" (click)="setView('')">
+      <mat-icon>forum</mat-icon>
+      <span>Forum</span>
+    </div>
+    <div class="btn-header" routerLink="/profile" routerLinkActive="active" (click)="setView('')">
+      <mat-icon>person</mat-icon>
+      <span>You</span>
+    </div>
+    <div class="btn-header" (click)="onLogout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </div>
+    }
+  </div>
+</div>

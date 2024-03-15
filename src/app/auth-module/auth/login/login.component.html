@@ -1,0 +1,30 @@
+<div id="login">
+  <div class="subscribe-hdr">
+    <div>
+      <h1>Welcome to the SmartCity community</h1>
+      <a href="https://gorest.co.in/consumer/login" target="_blank">To get your access token you must first authenticate on the GoRest platform</a>
+    </div>
+  </div>
+  <div class="subscribe-ctn">
+    <div class="forms">
+      <form #formLogin="ngForm" (ngSubmit)="onSubmit(formLogin)">
+        <div class="forms-field-grp">
+          <mat-form-field>
+            <mat-label>Access Token <span>(click on the link above to get your the access token)</span></mat-label>
+            <input matInput
+              id="token"
+              type="text"
+              name="token"
+              required
+              ngModel
+            >
+          </mat-form-field>
+        </div>
+        <div class="forms-btn">
+          <button class="btn-header" type="submit" [disabled]="!formLogin.valid">Login</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

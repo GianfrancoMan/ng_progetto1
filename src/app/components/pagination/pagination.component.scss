@@ -1,0 +1,19 @@
+@import '../../../assets/scss/base';
+
+.pagination {
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+  margin-top: 5px;
+  margin-bottom:15px ;
+  @include lyt(flex, space-around, center);
+  button {
+    border-radius: 50%;
+    border: 1px solid $bgColorLight;
+    background-color: $bgColorLight;
+  }
+  span {
+    font-weight: 600;
+    color: $blue;
+  }
+}

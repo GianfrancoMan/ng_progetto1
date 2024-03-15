@@ -1,0 +1,83 @@
+@import '../../../../assets/scss/base';
+#subscribe {
+  width: 100%;
+  height: 100%;
+  .subscribe-hdr{
+    width: 100%;
+    height: 20%;
+    max-width: 600px;
+    margin: auto;
+    padding-left: 20px;
+    color: $blue;
+    @include lyt(flex, center, flex-end);
+    a {
+      text-decoration: none;
+      &:hover {color:white}
+      &:visited{color:$blue}
+      &:visited:hover{color:white}
+    }
+  }
+  .subscribe-ctn {
+    width: 100%;
+    height: 90%;
+    background-color: $bgColorLight;
+    padding-top: 10px;
+    @include lyt(flex, center, top);
+    .forms {
+      width: 100%;
+      height: fit-content;
+      max-width: 600px;
+      padding: 50px 20px;
+      border: 1px solid $blue;
+      border-radius: 10px;
+      &-field-grp {
+        width: 80%;
+        margin:auto;
+        @include lyt(flex, flex-start, flex-start);
+        input {
+          height: 31px;
+        }
+        & mat-form-field:last-child {
+          margin-left:30px;
+        }
+      }
+      &-btn {
+        width: 80%;
+        margin:auto;
+        @include lyt(flex, center, center);
+        .btn-header {
+          font-size: 17px;
+          width: fit-content;
+          min-width: 100px;
+        }
+      }
+    }
+  }
+
+  //****************************//
+  //******* Media query ********//
+  //****************************//
+  @media only screen and (max-width:1120px) {
+    width : 100%;
+    margin: 0;
+  }
+
+  @media only screen and (max-width:750px) {
+    .subscribe-hdr{
+      h1 {font-size: 1.2em;}
+    }
+    .subscribe-ctn {
+      .forms {
+        &-field-grp {
+          mat-form-field {
+            width: 100%
+          }
+          @include lyt(flex, center, center, column );
+          & mat-form-field:last-child {
+            margin-left:0;
+          }
+        }
+      }
+    }
+  }
+}

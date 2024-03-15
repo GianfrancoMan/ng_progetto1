@@ -1,0 +1,68 @@
+<div id="subscribe">
+  <div class="subscribe-hdr">
+    <div>
+      <h1>Welcome to the SmartCity community</h1>
+      <a href="https://gorest.co.in/my-account/access-tokens" target="_blank">To get your access token you must first authenticate on the GoRest platform</a>
+    </div>
+  </div>
+  <div class="subscribe-ctn">
+    <div class="forms">
+      <form #formSubscription="ngForm" (ngSubmit)="onSubmit(formSubscription)">
+
+        <div class="forms-field-grp">
+          <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput
+              id="name"
+              type="text"
+              name="name"
+              required
+              minlength="4"
+              ngModel
+            >
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput
+              id="email"
+              type="email"
+              name="email"
+              required
+              ngModel
+              email
+            >
+          </mat-form-field>
+        </div>
+
+        <div class="forms-field-grp">
+          <mat-form-field>
+            <mat-label>Gender</mat-label>
+            <mat-select
+              id="gender"
+              name="gender"
+              required
+              ngModel
+            >
+              <mat-option value="female">Female</mat-option>
+              <mat-option value="male">Male</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Token</mat-label>
+            <input matInput
+              id="token"
+              type="text"
+              name="token"
+              required
+              ngModel
+            >
+          </mat-form-field>
+        </div>
+
+        <div class="forms-btn">
+          <button class="btn-header" type="submit" [disabled]="!formSubscription.valid">Subscribe</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<div id="user">
+  <div class="tabs">
+    <div class=header>
+      <h1>
+       <ng-container *ngIf="user">
+        <div>{{(user | async)?.name}}</div>
+        <mat-icon
+          [class]="((user | async)?.status === 'active') ?' on-line' : 'off-line' "
+        >
+          fiber_manual_record
+        </mat-icon>
+        <span class="header-back" routerLink="/" (click)="setView('')"><u>Go Back</u></span>
+      </ng-container>
+      <ng-container *ngIf="!user">Not Found</ng-container>
+      </h1>
+    </div>
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+      <mat-tab label="Posts" >
+        <div class="tabs-content">
+          <app-posts [id]="userId"></app-posts>
+        </div>
+      </mat-tab>
+      <mat-tab label="Details">
+        <div class="tabs-content">
+          <div class="details">Name:
+            <span class="details-value">{{(user | async)?.name}}</span>
+          </div>
+          <div class="details">Email:
+            <span class="details-value">{{(user | async)?.email}}</span>
+          </div>
+          <div class="details">Status:
+            <span class="details-value">{{(user | async)?.status}}</span>
+          </div>
+          <div class="details">Gender:
+            <span class="details-value">{{(user | async)?.gender}}</span>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

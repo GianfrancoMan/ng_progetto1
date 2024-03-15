@@ -1,0 +1,140 @@
+<div id="profile">
+  <div class="tabs">
+    <div class=header>
+      <h1>
+       <ng-container *ngIf="user">
+        <div>{{user.name}}</div>
+        <mat-icon
+          class="on-line"
+        >
+          fiber_manual_record
+        </mat-icon>
+      </ng-container>
+      <ng-container *ngIf="!user">Not Found</ng-container>
+      </h1>
+    </div>
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+      <mat-tab label="Posts" >
+        <div class="tabs-content">
+          <app-posts [id]="userId"></app-posts>
+        </div>
+      </mat-tab>
+      <mat-tab label="Details">
+        <div class="tabs-content">
+          <form #detailsForm="ngForm">
+            <div class="fields">
+              <div class="fields-input">
+                <label>Name:</label>
+                <input
+                  ngModel
+                  name="name"
+                  type="text"
+                  [disabled]="modifying.name === false ? true : false"
+                  [class]="modifying.name ? 'modify' : ''"
+                  ngModel
+                >&nbsp;
+                <div class="fields-input-button">
+                  <button
+                    [class]="!modifying.name === false ? 'modify' : ''"
+                    (click)="onSendModify(detailsForm, 'name')"
+                  >
+                    send
+                  </button>&nbsp;
+                  <button
+                    [class]="!modifying.name === false ? 'modify' : ''"
+                    (click)="onCancelModify(detailsForm)"
+                  >
+                    cancel
+                  </button>
+                </div>
+              </div>
+              <mat-icon
+                (click)="onClickModify('name', detailsForm)"
+                [class]="!modifying.name === false ? 'modify' : ''"
+              >mode_edit_outline
+              </mat-icon>
+            </div>
+            <div class="fields">
+              <div class="fields-input">
+                <label>Email:</label>
+                <input
+                  ngModel
+                  name="email"
+                  type="text"
+                  [disabled]="modifying.email === false ? true : false"
+                  [class]="modifying.email ? 'modify' : ''"
+                >&nbsp;
+                <div class="fields-input-button">
+                  <button
+                    [class]="!modifying.email === false ? 'modify' : ''"
+                    (click)="onSendModify(detailsForm, 'email')"
+                  >
+                    send
+                  </button>&nbsp;
+                  <button
+                    [class]="!modifying.email === false ? 'modify' : ''"
+                    (click)="onCancelModify(detailsForm)"
+                  >
+                    cancel
+                  </button>
+                </div>
+              </div>
+              <mat-icon
+                (click)="onClickModify('email', detailsForm)"
+                [class]="!modifying.email === false ? 'modify' : ''"
+              >mode_edit_outline
+              </mat-icon>
+            </div>
+            <div class="fields">
+              <div class="fields-input">
+                <label>Gender:</label>
+                <select
+                  name="gender"
+                  [disabled]="modifying.gender === false ? true : false"
+                  [class]="modifying.gender ? 'modify' : ''"
+                  ngModel
+                >
+                  <option value="female">Female</option>
+                  <option value="male">Male</option>
+                </select>&nbsp;
+                <div class="fields-input-button">
+                  <button
+                    [class]="!modifying.gender === false ? 'modify' : ''"
+                    (click)="onSendModify(detailsForm, 'gender')"
+                  >
+                    send
+                  </button>&nbsp;
+                  <button
+                    [class]="!modifying.gender === false ? 'modify' : ''"
+                    (click)="onCancelModify(detailsForm)"
+                  >
+                    cancel
+                  </button>
+                </div>
+              </div>
+              <mat-icon
+                (click)="onClickModify('gender', detailsForm)"
+                [class]="!modifying.gender === false ? 'modify' : ''"
+              >mode_edit_outline
+              </mat-icon>
+            </div>
+            <div class="fields">
+              <div class="fields-input">
+                <label>Status:</label>
+                <input
+                  ngModel
+                  name="status"
+                  type="text"
+                  [disabled]="true">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="footer">
+          <button (click)="unsubscribeUser()">unsubscribe</button>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+

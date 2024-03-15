@@ -1,0 +1,117 @@
+@import '../../../../assets/scss/base';
+
+
+#profile {
+  width: 100%;
+  height: 92%;
+  padding-top: 10%;
+  margin: auto;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll;
+  .header {
+    width: 95%;
+    padding: 10px 0 40px 10px;
+    color: $blue;
+    h1 {
+      @include lyt(flex, flex-start, center);
+    }
+    &-back {
+      padding-left: 20px;
+      font-size: 0.6em;
+      font-weight: bold;
+      text-align: right;
+      &:hover {
+        cursor: pointer;
+        color: $basicBtnLight;
+      }
+    }
+  }
+  .tabs {
+    border: 0.5px solid $bgColorLight;
+    border-radius: 10px;
+    width: 95%;
+    max-width: 600px;
+    margin: auto;
+    &-content {
+      margin: 20px 10px 10px 10px;
+      background-color: $bgColorGray;
+    }
+    .fields {
+      border-bottom: 1.5px solid gray;
+      height: 100px;
+      @include lyt(flex, space-between, center);
+      &-input {
+        width: 85%;
+        color: gray;
+        input, input:focus, select, select:focus {
+          color: rgb(87, 87, 87);
+          font-size: 1em;
+          font-weight: bold;
+          background-color: $bgColorGray;
+          margin-left: 1em;
+          outline: none;
+          border: none;
+        }
+        input.modify,  select.modify {
+          background-color: white;
+        }
+        &-button {
+          display: inline;
+          button {
+            display: none;
+          }
+          button.modify {
+            display: inline;
+          }
+        }
+      }
+      mat-icon {
+        color: gray;
+        font-size: 1.5em;
+        margin-right: 5px;
+        &:hover {
+          color: $basicBtnLight;
+        }
+      }
+      mat-icon.modify {
+        display: none;
+      }
+    }
+  }
+
+  .footer {
+    border-radius: 10px;
+    width: 95%;
+    height: 100px;
+    max-width: 600px;
+    margin: auto;
+    margin-bottom: 10px;
+    @include lyt(flex, flex-end, flex-end);
+    button {
+      height: 50%;
+      margin-right: 10px;
+      border-radius: 20px;
+      background-color: $red;
+    }
+  }
+
+  .on-line, .off-line {padding-left: 10px;}
+  .on-line {color:$green;}
+  .off-line {color: $red}
+
+  //****************************//
+  //******* Media query ********//
+  //****************************//
+  @media only screen and (max-width:500px) {
+    .tabs{
+      .fields {
+        &-input {
+          &-button{
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}

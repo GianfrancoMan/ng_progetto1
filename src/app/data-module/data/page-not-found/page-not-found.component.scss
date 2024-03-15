@@ -1,0 +1,23 @@
+@import '../../../../assets/scss/base';
+#not_found {
+  width: 60%;
+  height: 92%;
+  position:absolute;
+  top: 8%;
+  color: $blue;
+  @include lyt(flex, center, center, column);
+  .warm {color: $red}
+  .btn-header {
+    border: 1px solid $blue;
+    span {padding-left: 3px;}
+  }
+
+
+
+  //****************************//
+  //******* Media query ********//
+  //****************************//
+  @media only screen and (max-width:1120px) {
+    width: 100%;
+  }
+}

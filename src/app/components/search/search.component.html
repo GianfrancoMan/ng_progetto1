@@ -1,0 +1,23 @@
+<div [class]="dataService.isSearchAvailable() ? 'search-container' : 'search-container-no'">
+  <form #searchForm="ngForm" (ngSubmit)="onSubmit(searchForm)">
+    <div class="search-container-form">
+      <mat-icon color="primary">search</mat-icon>
+      <mat-radio-group
+        *ngIf="isRadio"
+        name="searchType"
+        class="search-container-radio"
+        ngModel
+      > <span>Search By</span>
+        <mat-radio-button value="name" color="primary"><span>name</span></mat-radio-button>
+        <mat-radio-button value="email" color="primary"><span>email</span></mat-radio-button>
+      </mat-radio-group>
+      <input mat-input
+        type="text"
+        id="search"
+        name="search"
+        ngModel
+        [placeholder]="isRadio ? 'Keeping the field empty you get the entire user list' : 'Search by Title(keeping the field empty will display all posts)'">
+      <button mat-raised-button type="submit" color="primary">Go</button>
+    </div>
+  </form>
+</div>

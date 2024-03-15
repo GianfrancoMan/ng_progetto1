@@ -1,0 +1,61 @@
+@import '../../../../assets/scss/base';
+
+#community {
+  width: 100%;
+  height: 92%;
+  padding-top: 10%;
+  left: 0;
+  .cards {
+    width: 95%;
+    margin:auto;
+    .card {
+      max-width: 500px;
+      margin: auto;
+      margin-bottom: 15px;
+      @include lyt(flex, space-between, center);
+      mat-card {
+        min-width: 500px;
+        .avatar {
+          background-image: url('../../../../assets/img/sustainable-business.png');
+          background-size: cover;
+        }
+      }
+      &-button {
+        width: 20%;
+        @include lyt(flex, center, flex-end, column);
+      }
+    }
+
+    &-spinner {
+      margin: auto;
+    }
+  }
+
+
+
+
+  //****************************//
+  //******* Media query ********//
+  //****************************//
+  @media only screen and (max-width:1120px) {
+    width : 100%;
+    margin: 0;
+  }
+
+  @media only screen and (max-width:800px) {
+    .cards {margin-top:20%; padding-top:15%;
+      @include lyt(flex, center, center, column);
+      .card {
+        max-width: 100%;
+        mat-card {
+          mat-card-title { font-size: 1em; }
+          mat-card-subtitle { font-size: 0.8em;}
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width:600px) {
+    .cards {padding-top:25%}
+  }
+}

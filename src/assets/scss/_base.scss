@@ -1,0 +1,31 @@
+@import "./custom", './variables';
+
+.btn-header {
+  height: 3em;
+  cursor: pointer;
+  color: $basicBtnDark;
+  font-weight: 500;
+  border-radius: 5px;
+  @include lyt(flex, space-around, center);
+  mat-icon {
+    margin-left: 5px;
+    font-size: 1.45em;
+  }
+  span {margin-right: 5px;};
+}
+.btn-header:hover {
+  background-color: $basicBtnDark;
+  color: $basicBtnLight;
+}
+
+.active {
+  background-color: white;
+  color: $blue;
+}
+
+.hidden {
+  display: none;
+}
+
+
+
