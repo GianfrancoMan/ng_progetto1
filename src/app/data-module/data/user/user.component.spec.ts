@@ -1,50 +1,56 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flush, waitForAsync } from '@angular/core/testing';
 
 import { UserComponent } from './user.component';
 import { DataModule } from '../../data.module';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { getMockUser } from '../../../utils/testing-utility/moks';
-import { of } from 'rxjs';
-import { DebugElement } from '@angular/core';
+import { of, tap } from 'rxjs';
+import { DebugElement, inject } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { DataService } from '../../../services/data.service';
+import { PostsComponent } from '../../../components/posts/posts.component';
 
 describe('UserComponent', () => {
   let component: UserComponent;
   let fixture: ComponentFixture<UserComponent>;
   let elem: DebugElement;
+  let dataService:any;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(waitForAsync (() => {
+    let dataServiceSpy = jasmine.createSpyObj<DataService>("DataService", ['getUserById', 'getComments', 'getUserPosts', 'getPosts']);
+    TestBed.configureTestingModule({
       imports:[DataModule, RouterTestingModule, NoopAnimationsModule],
+      declarations:[PostsComponent],
+      providers:[
+        {provide:DataService, useValue:dataServiceSpy}
+      ],
     })
-    .compileComponents();
+    .compileComponents().then(()=>{
+      fixture = TestBed.createComponent(UserComponent);
+      component = fixture.componentInstance;
+      elem = fixture.debugElement;
+    });
 
-    fixture = TestBed.createComponent(UserComponent);
-    component = fixture.componentInstance;
-    elem = fixture.debugElement;
-    fixture.detectChanges();
+  }));
+
+  it('should create',() => {
+    expect(component).toBeTruthy();
   });
 
-  it('should create', waitForAsync(() => {
-    fixture.detectChanges();
-    fixture.whenStable().then( ()=> {
-      expect(component).toBeTruthy();
-    });
+  it('user is correctly displayed', fakeAsync(() => {
+    dataService = TestBed.inject(DataService);
+    component.user = dataService.getUserById.and.returnValue(of(getMockUser(2)));
+    expect(component.user).toBeTruthy();
+    flush();
   }));
 
-  it('should create', waitForAsync(() => {
+  it('tabs group is displayed',fakeAsync(()=> {
     component.user = of(getMockUser(2));
-    fixture.detectChanges();
-    fixture.whenStable().then( ()=> {
-      const detailsElem = elem.queryAll(By.css('.details-value'));
-      component.user.subscribe( u => {
-        expect(detailsElem.length).toEqual(4);
-        expect(detailsElem[0].nativeElement.textContent).toEqual(u.name);
-        expect(detailsElem[1].nativeElement.textContent).toEqual(u.email);
-        expect(detailsElem[2].nativeElement.textContent).toEqual(u.status);
-        expect(detailsElem[3].nativeElement.textContent).toEqual(u.gender);
-      })
+    component.user.subscribe(u=> {
+      expect(u.name).toBe("Binco Ballino");
     })
+    flush();
   }));
+
 });

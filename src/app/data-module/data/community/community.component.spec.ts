@@ -1,12 +1,11 @@
-import { ComponentFixture, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flush, flushMicrotasks, tick, waitForAsync } from '@angular/core/testing';
 
 import { CommunityComponent } from './community.component';
 import { User } from '../../../../models/user.model';
-import { getMockUsers } from '../../../utils/testing-utility/moks';
+import { getMockUsers, getMockUser } from '../../../utils/testing-utility/moks';
 import { DataService } from '../../../services/data.service';
 import { DataModule } from '../../data.module';
-import { FixedSizeVirtualScrollStrategy } from '@angular/cdk/scrolling';
-import { elementAt, of } from 'rxjs';
+import { Observable, of, tap, finalize } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -18,10 +17,10 @@ describe('CommunityComponent', () => {
   let component: CommunityComponent;
   let fixture: ComponentFixture<CommunityComponent>;
   let elem:DebugElement;
-  const dataServiceSpy = jasmine.createSpyObj<DataService>("DataService", ['getUsers', 'isSearchAvailable']);
-  let dataServiceStub: any;
+  const dataServiceSpy = jasmine.createSpyObj<DataService>("DataService", {getUsers: of(getMockUsers()), isSearchAvailable:true});
+  let dataService: any;
 
-  beforeEach(waitForAsync (() => {
+  beforeEach(waitForAsync (waitForAsync(() => {
     TestBed.configureTestingModule({
       imports:[DataModule, RouterTestingModule, BrowserAnimationsModule],
       providers:[
@@ -33,9 +32,10 @@ describe('CommunityComponent', () => {
       component = fixture.componentInstance;
       elem = fixture.debugElement;
 
-      dataServiceStub = TestBed.inject(DataService) as jasmine.SpyObj<DataService>;
+      dataService = TestBed.inject(DataService) as jasmine.SpyObj<DataService>;
+      fixture.detectChanges();
     });
-  }));
+  })));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -59,4 +59,14 @@ describe('CommunityComponent', () => {
   })
 
 
-});
+  it('user are displayed', fakeAsync(()=> {
+    component.users = dataService.getUsers();
+    component.isSpinnerActive = false;
+    fixture.detectChanges();
+    const cards = elem.queryAll(By.css('.cards'));
+    expect(cards).toBeTruthy();
+    expect(cards.length).toBeGreaterThan(0);
+    flush();
+  }));
+
+})

@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, finalize, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { User } from '../../../../models/user.model';
 import { DataService } from '../../../services/data.service';
 

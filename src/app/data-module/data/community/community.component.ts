@@ -3,15 +3,13 @@ import { DataService } from '../../../services/data.service';
 import { User } from '../../../../models/user.model';
 import { Observable, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../services/auth.service';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-community',
   templateUrl: './community.component.html',
   styleUrl: './community.component.scss'
 })
-export class CommunityComponent implements OnInit{
+export class CommunityComponent implements OnInit {
 
   router:Router = inject(Router);
   dataService:DataService = inject(DataService);
@@ -32,17 +30,17 @@ export class CommunityComponent implements OnInit{
 
   ngOnInit(): void {
     this.isSpinnerActive = true;
-      this.isForwardAvailable = true;
-      this.isForwardMoreAvailable = true
-      this.currentPage = 1;
-      this.searchParam = "";
-      this.searchValue = "";
-      this.perPageParam = 10;
+    this.isForwardAvailable = true;
+    this.isForwardMoreAvailable = true
+    this.currentPage = 1;
+    this.searchParam = "";
+    this.searchValue = "";
+    this.perPageParam = 10;
 
-      this.users = this.dataService.getUsers(this.currentPage)
-        .pipe(
-          tap( ()=> this.isSpinnerActive = false),
-        );
+    this.users = this.dataService.getUsers(this.currentPage)
+      .pipe(
+        tap( ()=> this.isSpinnerActive = false),
+      );
 
   }
 

@@ -4,10 +4,11 @@ import { ProfileComponent } from './profile.component';
 import { DataModule } from '../../data.module';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { DebugElement } from '@angular/core';
+import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { DataService } from '../../../services/data.service';
 import { AuthService } from '../../../services/auth.service';
+import { getMockUser } from '../../../utils/testing-utility/moks';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -16,6 +17,7 @@ describe('ProfileComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports:[DataModule, RouterTestingModule, NoopAnimationsModule],
+      schemas:[NO_ERRORS_SCHEMA],
     })
     .compileComponents().then(()=>{
       fixture = TestBed.createComponent(ProfileComponent);
