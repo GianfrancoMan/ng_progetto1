@@ -73,3 +73,4 @@
 ## More information about the application
 > - The search, pagination and posts sections are reusable components, which change their state depending on what the parent component is.
 > - Since there is no real backend for this application, user registration is handled in local storage, so if for some reason the registration data was lost, the user would be asked to register again, but since the user is already registered on the gorest platform, the access token remains the same and can be retrieved via the link indicated on the page.
+> - Site [https://smartcityweb.netlify.app](https://smartcityweb.netlify.app/data)
