@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { DataService } from '../../services/data.service';
-import { Observable, finalize, tap } from 'rxjs';
+import { Observable, catchError, finalize, of, tap } from 'rxjs';
 import { Post } from '../../../models/post.model';
 import { Comment } from '../../../models/comment.model';
 import { NgForm } from '@angular/forms';
@@ -37,7 +37,8 @@ export class PostsComponent implements OnInit {
   isForwardMoreAvailable!:boolean;
   isPost:boolean = true;
   isEditable:boolean = false;
-  userNames:string[] = [];
+  userNames!:string[];
+  userIds!:number[];
   loggedId?:number;
 
 
@@ -46,6 +47,8 @@ export class PostsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userNames = [];
+    this.userIds = [];
     this.isSpinnerActive =true;
     this.isForwardAvailable = true;
     this.isForwardMoreAvailable = true
@@ -68,13 +71,50 @@ export class PostsComponent implements OnInit {
       );
     }
     else {
+      this.userIds.splice( 0, this.userIds.length);
       this.isEditable = true;
       this.posts = this.dataService.getPosts(this.currentPage, this.perPageParam, this.searchParam, this.searchValue).pipe(
         tap((posts) => {
+          posts.forEach( p => {
+            this.userIds.push( p.user_id );
+          })
           this.isPost = true;
+        }),
+        finalize(()=> {
+          this.getUserOwner();
           this.isSpinnerActive = false;
         }),
       );
+    }
+  }
+
+  private getUserOwner() {
+    let userDataFromPost:string[] = [];
+    console.log(this.userIds);
+
+    for(let id of this.userIds) {
+      this.dataService.getUserById(id).pipe(
+        catchError( //provides a next value in place of the missing next one for the http error.
+          (err)=> of({
+              id:0,
+              name:'',
+              email:'Unsubscribed user',
+              gender:'',
+              status:'',
+        })),
+      ).subscribe({
+          next: u => {
+            userDataFromPost.push(u.email);
+          },
+          error: ()=> {
+            console.log('Occurred Errors kick in catchError.');
+          },
+          complete:()=> {
+            if(this.userNames.length > 0) this.userNames.splice(0, this.userNames.length);
+            userDataFromPost.forEach( data => this.userNames.push(data));
+            this.userIds.splice(0, this.userIds.length);
+          }
+      });
     }
   }
 
@@ -131,8 +171,14 @@ export class PostsComponent implements OnInit {
     else {
       this.posts =  this.dataService.getPosts(this.currentPage, this.perPageParam, this.searchParam, this.searchValue).pipe(
         tap(posts=> {
+          posts.forEach( p => {
+            this.userIds.push( p.user_id );
+          })
           this.isForwardAvailable = posts.length > 0;
           this.isForwardMoreAvailable = posts.length === 10;
+        }),
+        finalize(()=> {
+          this.getUserOwner();
           this.isSpinnerActive = false;
         }),
       );
