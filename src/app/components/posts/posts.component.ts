@@ -99,13 +99,11 @@ export class PostsComponent implements OnInit {
       ).subscribe({
           next: u => {
            this.usersEmail[key] = u.email;
-           console.log(this.usersEmail[key])
           },
           error: ()=> {
             console.log('Occurred Errors kick in catchError.');
           },
-          complete:()=> {
-          }
+          complete:()=> {}
       });
     }
   }
