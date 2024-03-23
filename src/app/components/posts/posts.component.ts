@@ -37,8 +37,7 @@ export class PostsComponent implements OnInit {
   isForwardMoreAvailable!:boolean;
   isPost:boolean = true;
   isEditable:boolean = false;
-  userNames!:string[];
-  userIds!:number[];
+  usersEmail!:any;
   loggedId?:number;
 
 
@@ -47,8 +46,7 @@ export class PostsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userNames = [];
-    this.userIds = [];
+    this.usersEmail = {};
     this.isSpinnerActive =true;
     this.isForwardAvailable = true;
     this.isForwardMoreAvailable = true
@@ -71,12 +69,11 @@ export class PostsComponent implements OnInit {
       );
     }
     else {
-      this.userIds.splice( 0, this.userIds.length);
       this.isEditable = true;
       this.posts = this.dataService.getPosts(this.currentPage, this.perPageParam, this.searchParam, this.searchValue).pipe(
         tap((posts) => {
           posts.forEach( p => {
-            this.userIds.push( p.user_id );
+            this.usersEmail[p.id] = p.user_id;
           })
           this.isPost = true;
         }),
@@ -89,11 +86,8 @@ export class PostsComponent implements OnInit {
   }
 
   private getUserOwner() {
-    let userDataFromPost:string[] = [];
-    console.log(this.userIds);
-
-    for(let id of this.userIds) {
-      this.dataService.getUserById(id).pipe(
+    for(let key in this.usersEmail) {
+      this.dataService.getUserById(Number(this.usersEmail[key])).pipe(
         catchError( //provides a next value in place of the missing next one for the http error.
           (err)=> of({
               id:0,
@@ -104,15 +98,13 @@ export class PostsComponent implements OnInit {
         })),
       ).subscribe({
           next: u => {
-            userDataFromPost.push(u.email);
+           this.usersEmail[key] = u.email;
+           console.log(this.usersEmail[key])
           },
           error: ()=> {
             console.log('Occurred Errors kick in catchError.');
           },
           complete:()=> {
-            if(this.userNames.length > 0) this.userNames.splice(0, this.userNames.length);
-            userDataFromPost.forEach( data => this.userNames.push(data));
-            this.userIds.splice(0, this.userIds.length);
           }
       });
     }
@@ -156,6 +148,7 @@ export class PostsComponent implements OnInit {
 
   //gets posts based on the value emitted from the PaginationComponent
   public nextPageByPagination(page:number) {
+    this.usersEmail = {};
     this.isSpinnerActive = true;
     this.currentPage = page;
 
@@ -172,7 +165,7 @@ export class PostsComponent implements OnInit {
       this.posts =  this.dataService.getPosts(this.currentPage, this.perPageParam, this.searchParam, this.searchValue).pipe(
         tap(posts=> {
           posts.forEach( p => {
-            this.userIds.push( p.user_id );
+            this.usersEmail[p.id] = p.user_id;
           })
           this.isForwardAvailable = posts.length > 0;
           this.isForwardMoreAvailable = posts.length === 10;
